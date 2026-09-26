@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Academic Timetable Generator — Genetic Algorithm powered scheduler with interactive visualization">
+    <title>Timetable Generator — GA Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="app-header">
+        <div class="logo">
+            <div class="logo-icon">📅</div>
+            <div>
+                <h1>Timetable Generator</h1>
+                <div class="subtitle">Genetic Algorithm Engine • Academic Scheduler</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div id="statusBadge" class="status-badge" style="display:none;">
+                <span class="pulse"></span>
+                <span id="statusText"></span>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ═══ TAB NAVIGATION ═══ -->
+    <nav class="tab-nav" id="tabNav">
+        <button class="tab-btn active" data-tab="input">
+            <span class="tab-icon">📝</span> Input Data
+        </button>
+        <button class="tab-btn" data-tab="dashboard" id="tabDashboard" style="display:none;">
+            <span class="tab-icon">📊</span> Dashboard
+        </button>
+        <button class="tab-btn" data-tab="subbatch" id="tabSubBatch" style="display:none;">
+            <span class="tab-icon">🧑‍🎓</span> Sub-Batch View
+        </button>
+        <button class="tab-btn" data-tab="faculty" id="tabFaculty" style="display:none;">
+            <span class="tab-icon">👨‍🏫</span> Faculty View
+        </button>
+        <button class="tab-btn" data-tab="room" id="tabRoom" style="display:none;">
+            <span class="tab-icon">🏫</span> Room View
+        </button>
+        <button class="tab-btn" data-tab="master" id="tabMaster" style="display:none;">
+            <span class="tab-icon">📋</span> Master Grid
+        </button>
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 1: INPUT DATA
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content active" id="tab-input">
+        <div class="wizard-container">
+
+            <!-- Wizard Step Nav -->
+            <div class="wizard-steps" id="wizardSteps">
+                <button class="wizard-step-btn active" data-step="config">
+                    <span class="step-num">1</span> Schedule
+                </button>
+                <button class="wizard-step-btn" data-step="courses">
+                    <span class="step-num">2</span> Courses
+                </button>
+                <button class="wizard-step-btn" data-step="faculty">
+                    <span class="step-num">3</span> Faculty
+                </button>
+                <button class="wizard-step-btn" data-step="rooms">
+                    <span class="step-num">4</span> Rooms
+                </button>
+                <button class="wizard-step-btn" data-step="batches">
+                    <span class="step-num">5</span> Batches
+                </button>
+                <button class="wizard-step-btn" data-step="sessions">
+                    <span class="step-num">6</span> Sessions
+                </button>
+            </div>
+
+
+            <!-- ── Step 1: Schedule Config ── -->
+            <div class="wizard-panel active" id="step-config">
+                <h2 class="form-section-title">⏱️ Schedule Configuration</h2>
+                <p class="form-section-desc">Define working days, number of periods, and time slots.</p>
+
+                <div class="config-field" style="margin-bottom: 20px;">
+                    <label>Working Days & Periods Per Day</label>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 4px 0 12px;">Set different number of periods for each day (e.g. Saturday = 4 periods).</p>
+                    <div class="data-table-wrapper" style="max-width: 400px;">
+                        <table class="data-table" id="daysConfigTable">
+                            <thead>
+                                <tr>
+                                    <th>Enabled</th>
+                                    <th>Day</th>
+                                    <th>Periods</th>
+                                </tr>
+                            </thead>
+                            <tbody id="daysConfigBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px;">Period Timings</h3>
+                <div class="period-timings-list" id="periodTimings">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+
+            <!-- ── Step 2: Courses ── -->
+            <div class="wizard-panel" id="step-courses">
+                <h2 class="form-section-title">📚 Courses</h2>
+                <p class="form-section-desc">Add all courses with their code, name, credits, and L-T-P hours.</p>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Credits</th>
+                                <th>L</th>
+                                <th>T</th>
+                                <th>P</th>
+                                <th>Elective</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="coursesBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addCourseRow()">➕ Add Course</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ── Step 3: Faculty ── -->
+            <div class="wizard-panel" id="step-faculty">
+                <h2 class="form-section-title">👨‍🏫 Faculty</h2>
+                <p class="form-section-desc">Add faculty members with their department and weekly load limit.</p>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="facultyTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Max Load (hrs/wk)</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="facultyBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addFacultyRow()">➕ Add Faculty</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ── Step 4: Rooms ── -->
+            <div class="wizard-panel" id="step-rooms">
+                <h2 class="form-section-title">🏫 Rooms</h2>
+                <p class="form-section-desc">Add rooms/labs with type and capacity.</p>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="roomsTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Type</th>
+                                <th>Capacity</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="roomsBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addRoomRow()">➕ Add Room</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ── Step 5: Batches & Groups ── -->
+            <div class="wizard-panel" id="step-batches">
+                <h2 class="form-section-title">🧑‍🎓 Batches & Groups</h2>
+                <p class="form-section-desc">Define sub-batches first, then group them into batch groups for lectures/labs.</p>
+
+                <h3 style="font-size: 0.95rem; color: var(--text-secondary); margin: 16px 0 10px;">Sub-Batches</h3>
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="subBatchTable">
+                        <thead>
+                            <tr>
+                                <th>ID/Name</th>
+                                <th>Size (students)</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="subBatchBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions" style="border-top:none; margin-top:10px; padding-top:0;">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addSubBatchRow()">➕ Add Sub-Batch</button>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 0.95rem; color: var(--text-secondary); margin: 24px 0 10px;">Batch Groups</h3>
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="batchGroupTable">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                                <th>Sub-Batches (comma-separated IDs)</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchGroupBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions" style="border-top:none; margin-top:10px; padding-top:0;">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addBatchGroupRow()">➕ Add Batch Group</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ── Step 6: Session Mappings ── -->
+            <div class="wizard-panel" id="step-sessions">
+                <h2 class="form-section-title">🔗 Session Mapping</h2>
+                <p class="form-section-desc">Map each course to its batch group, faculty, and session type. The system generates sessions from L-T-P automatically, but you can also manually specify count.</p>
+
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="sessionsTable">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Type</th>
+                                <th>Batch Group</th>
+                                <th>Faculty</th>
+                                <th>Count</th>
+                                <th style="width:50px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="sessionsBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions">
+                    <div class="form-actions-left">
+                        <button class="btn btn-primary btn-sm" onclick="addSessionRow()">➕ Add Mapping</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ── Global Wizard Actions ── -->
+            <div class="form-actions" style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+                <div class="form-actions-left">
+                    <button class="btn btn-secondary" onclick="loadSampleData()">📥 Load Sample Data</button>
+                    <button class="btn btn-secondary" onclick="clearAllData()">🗑️ Clear All</button>
+                </div>
+                <div class="form-actions-right">
+                    <button class="btn btn-secondary" onclick="reloadServerOutput()" title="Load latest timetable from server">⚡ Reload Latest</button>
+                    <button class="btn btn-secondary" id="btnLoadOutput" onclick="loadOutputJson()" title="Upload a JSON file from your computer">📂 Upload JSON</button>
+                    <button class="btn btn-success" onclick="exportInputJson()">💾 Export Input JSON</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 2: DASHBOARD
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-dashboard">
+        <div class="stats-grid" id="statsGrid">
+            <!-- Populated by JS -->
+        </div>
+
+        <div style="margin-top: 20px;">
+            <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px;">Legend</h3>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="type-badge lecture">Lecture</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Theory class for entire batch group</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="type-badge tutorial">Tutorial</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Small-group problem-solving session</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="type-badge practical">Lab</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Hands-on lab (2 contiguous slots)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 3: SUB-BATCH VIEW
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-subbatch">
+        <div class="view-controls">
+            <label for="subBatchSelect">Select Sub-Batch:</label>
+            <select class="styled-select" id="subBatchSelect" onchange="renderSubBatchGrid()"></select>
+        </div>
+        <div id="subBatchGridContainer">
+            <div class="empty-state">
+                <div class="empty-icon">🧑‍🎓</div>
+                <h3>Select a sub-batch above</h3>
+                <p>Choose a sub-batch from the dropdown to view its weekly timetable.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 4: FACULTY VIEW
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-faculty">
+        <div class="view-controls">
+            <label for="facultySelect">Select Faculty:</label>
+            <select class="styled-select" id="facultySelect" onchange="renderFacultyGrid()"></select>
+        </div>
+        <div id="facultyGridContainer">
+            <div class="empty-state">
+                <div class="empty-icon">👨‍🏫</div>
+                <h3>Select a faculty member above</h3>
+                <p>Choose a faculty member to view their weekly teaching schedule.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 5: ROOM VIEW
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-room">
+        <div class="view-controls">
+            <label for="roomSelect">Select Room:</label>
+            <select class="styled-select" id="roomSelect" onchange="renderRoomGrid()"></select>
+        </div>
+        <div id="roomGridContainer">
+            <div class="empty-state">
+                <div class="empty-icon">🏫</div>
+                <h3>Select a room above</h3>
+                <p>Choose a room to see its weekly occupancy schedule.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 6: MASTER GRID
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-master">
+        <div class="view-controls">
+            <label for="masterFilter">Filter:</label>
+            <input type="text" class="styled-select" id="masterFilter" placeholder="Search by course, faculty, room..." oninput="renderMasterTable()" style="min-width: 300px;">
+        </div>
+        <div id="masterTableContainer">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+</div>
+
+<!-- ═══ TOOLTIP ═══ -->
+<div class="tooltip" id="tooltip"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

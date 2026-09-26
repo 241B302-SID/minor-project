@@ -1,0 +1,88 @@
+{
+  "config": {
+    "daysCount": 6,
+    "periodsPerDay": 6,
+    "periodsPerDayArray": [6, 6, 6, 6, 6, 4],
+    "dayNames": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "periodTimes": [
+      "9:00-9:55",
+      "10:00-10:55",
+      "11:00-11:55",
+      "12:00-12:55",
+      "2:00-2:55",
+      "3:00-3:55"
+    ]
+  },
+  "courses": [
+    { "code": "MA106", "name": "Probability Theory", "credits": 4, "lectureHours": 3, "tutorialHours": 1, "labHours": 0, "isElective": false },
+    { "code": "CS109", "name": "Computer Networks", "credits": 3, "lectureHours": 3, "tutorialHours": 0, "labHours": 0, "isElective": false },
+    { "code": "CS110", "name": "Theory of Computation", "credits": 4, "lectureHours": 3, "tutorialHours": 1, "labHours": 0, "isElective": false },
+    { "code": "CS212", "name": "Computer Networks Lab", "credits": 2, "lectureHours": 0, "tutorialHours": 0, "labHours": 2, "isElective": false },
+    { "code": "CS303", "name": "Artificial Intelligence", "credits": 3, "lectureHours": 3, "tutorialHours": 0, "labHours": 0, "isElective": false }
+  ],
+  "faculty": [
+    { "id": "FAC01", "name": "Dr. Sharma", "department": "CSE", "maxWeeklyLoad": 14 },
+    { "id": "FAC02", "name": "Prof. Verma", "department": "CSE", "maxWeeklyLoad": 14 },
+    { "id": "FAC03", "name": "Dr. Gupta", "department": "Math", "maxWeeklyLoad": 12 },
+    { "id": "FAC04", "name": "Prof. Rao", "department": "HSS", "maxWeeklyLoad": 10 },
+    { "id": "FAC05", "name": "Dr. Patel", "department": "CSE", "maxWeeklyLoad": 14 },
+    { "id": "FAC06", "name": "Prof. Singh", "department": "Physics", "maxWeeklyLoad": 12 }
+  ],
+  "rooms": [
+    { "code": "LT1", "type": "LECTURE_THEATRE", "capacity": 160 },
+    { "code": "LT2", "type": "LECTURE_THEATRE", "capacity": 160 },
+    { "code": "CR11", "type": "CLASSROOM", "capacity": 80 },
+    { "code": "CR12", "type": "CLASSROOM", "capacity": 80 },
+    { "code": "CR13", "type": "CLASSROOM", "capacity": 80 },
+    { "code": "CL1", "type": "COMPUTER_LAB", "capacity": 35 },
+    { "code": "CL2", "type": "COMPUTER_LAB", "capacity": 35 },
+    { "code": "CL3", "type": "CLASSROOM", "capacity": 35 }
+  ],
+  "subBatches": [
+    { "id": "B1", "name": "B1", "size": 25 },
+    { "id": "B2", "name": "B2", "size": 25 },
+    { "id": "B3", "name": "B3", "size": 25 },
+    { "id": "B4", "name": "B4", "size": 25 },
+    { "id": "B5", "name": "B5", "size": 25 },
+    { "id": "B6", "name": "B6", "size": 25 },
+    { "id": "B7", "name": "B7", "size": 25 },
+    { "id": "B8", "name": "B8", "size": 25 },
+    { "id": "B9", "name": "B9", "size": 25 },
+    { "id": "B10", "name": "B10", "size": 25 },
+    { "id": "B11", "name": "B11", "size": 25 },
+    { "id": "B21", "name": "B21", "size": 25 },
+    { "id": "B22", "name": "B22", "size": 25 },
+    { "id": "B31", "name": "B31", "size": 25 }
+  ],
+  "batchGroups": [
+    { "id": "BX", "name": "BX", "subBatchIds": ["B1", "B2", "B3"] },
+    { "id": "BY", "name": "BY", "subBatchIds": ["B4", "B5", "B6"] },
+    { "id": "BZ", "name": "BZ", "subBatchIds": ["B7", "B8", "B9"] },
+    { "id": "BX1", "name": "BX1", "subBatchIds": ["B10", "B11", "B21", "B22", "B31"] },
+    { "id": "BATCH1", "name": "BATCH1", "subBatchIds": ["B1", "B2", "B3", "B4", "B5"] },
+    { "id": "BATCH2", "name": "BATCH2", "subBatchIds": ["B6", "B7", "B8", "B9"] },
+    { "id": "B1", "name": "B1", "subBatchIds": ["B1"] },
+    { "id": "B2", "name": "B2", "subBatchIds": ["B2"] },
+    { "id": "B3", "name": "B3", "subBatchIds": ["B3"] },
+    { "id": "B4", "name": "B4", "subBatchIds": ["B4"] }
+  ],
+  "sessionMappings": [
+    { "courseCode": "MA106", "type": "LECTURE", "batchGroupId": "BX", "facultyId": "FAC03", "count": 3 },
+    { "courseCode": "MA106", "type": "TUTORIAL", "batchGroupId": "B1", "facultyId": "FAC03", "count": 1 },
+    { "courseCode": "MA106", "type": "TUTORIAL", "batchGroupId": "B2", "facultyId": "FAC03", "count": 1 },
+    { "courseCode": "CS109", "type": "LECTURE", "batchGroupId": "BX", "facultyId": "FAC01", "count": 3 },
+    { "courseCode": "CS110", "type": "LECTURE", "batchGroupId": "BY", "facultyId": "FAC05", "count": 3 },
+    { "courseCode": "CS110", "type": "TUTORIAL", "batchGroupId": "B4", "facultyId": "FAC05", "count": 1 },
+    { "courseCode": "CS303", "type": "LECTURE", "batchGroupId": "BATCH1", "facultyId": "FAC04", "count": 3 },
+    { "courseCode": "CS212", "type": "PRACTICAL", "batchGroupId": "B1", "facultyId": "FAC01", "count": 1 },
+    { "courseCode": "CS212", "type": "PRACTICAL", "batchGroupId": "B2", "facultyId": "FAC02", "count": 1 },
+    { "courseCode": "CS212", "type": "PRACTICAL", "batchGroupId": "B3", "facultyId": "FAC05", "count": 1 }
+  ],
+  "gaParams": {
+    "populationSize": 120,
+    "maxGenerations": 500,
+    "elitismCount": 6,
+    "mutationRate": 0.15,
+    "crossoverRate": 0.85
+  }
+}
