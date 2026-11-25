@@ -1103,3 +1103,584 @@ body::before {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PREMIUM TIMETABLE — New V2 Styles
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Combined view header bar ── */
+.combined-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.combined-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+}
+.combined-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ── Batch colour legend ── */
+.combined-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    backdrop-filter: blur(12px);
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.legend-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* ── Scrollable wrapper ── */
+.tt-scroll-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+}
+
+/* ── Premium timetable table ── */
+.tt-premium {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 900px;
+}
+
+/* ── Header cells ── */
+.tt-th-day {
+    padding: 14px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border-subtle);
+    min-width: 90px;
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    border-right: 1px solid var(--border-subtle);
+}
+
+.tt-th-period {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 2px solid var(--border-subtle);
+    border-right: 1px solid hsla(222,30%,22%,0.4);
+    min-width: 130px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: all 0.2s;
+}
+.tt-th-period:hover { filter: brightness(1.15); }
+
+.tt-period-num {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 3px;
+}
+
+.tt-period-time {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.tt-th-lunch {
+    padding: 8px 6px;
+    text-align: center;
+    background: linear-gradient(135deg, hsla(38,80%,50%,0.25), hsla(38,80%,50%,0.12));
+    border-bottom: 2px solid hsla(38,80%,55%,0.4);
+    border-right: 1px solid hsla(38,60%,40%,0.3);
+    min-width: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.tt-lunch-icon  { display: block; font-size: 1.1rem; }
+.tt-lunch-label { display: block; font-size: 0.62rem; font-weight: 700; color: hsl(38,90%,68%); text-transform: uppercase; letter-spacing: 0.06em; }
+.tt-lunch-time  { display: block; font-size: 0.6rem;  color: hsl(38,70%,58%); font-family: 'JetBrains Mono', monospace; }
+
+/* ── Row ── */
+.tt-row { transition: background 0.15s; }
+.tt-row:hover .tt-td-session,
+.tt-row:hover .tt-td-empty { background: hsla(222,30%,18%,0.5); }
+
+/* ── Day column cell ── */
+.tt-td-day {
+    padding: 10px 8px;
+    text-align: center;
+    vertical-align: middle;
+    border-right: 2px solid hsla(222,30%,10%,0.5);
+    border-bottom: 1px solid hsla(222,30%,15%,0.4);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 90px;
+}
+.tt-day-name {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    letter-spacing: 0.02em;
+}
+.tt-half-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 6px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 100px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── Lunch break cell ── */
+.tt-td-lunch {
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    background: linear-gradient(135deg, hsla(38,80%,50%,0.12), hsla(38,80%,50%,0.06));
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(38,60%,40%,0.25);
+    min-width: 80px;
+}
+.tt-lunch-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+.lunch-big-icon   { font-size: 1.4rem; }
+.lunch-cell-label { font-size: 0.65rem; font-weight: 700; color: hsl(38,90%,65%); text-transform: uppercase; letter-spacing: 0.05em; }
+.lunch-cell-time  { font-size: 0.58rem; color: hsl(38,70%,55%); font-family: 'JetBrains Mono', monospace; }
+.tt-lunch-faded { opacity: 0.25; }
+
+/* ── Blocked / no-class cell ── */
+.tt-td-blocked {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    background: hsla(222,30%,10%,0.5);
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+}
+.tt-blocked-inner {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+    font-style: italic;
+}
+
+/* ── Session cell container ── */
+.tt-td-session {
+    padding: 6px;
+    vertical-align: top;
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(222,30%,20%,0.2);
+    min-width: 130px;
+    min-height: 90px;
+}
+
+/* ── Session card (the colourful box inside) ── */
+.tt-session-card {
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 4px;
+    min-height: 80px;
+}
+.tt-session-card:last-child { margin-bottom: 0; }
+.tt-session-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    z-index: 5;
+    position: relative;
+}
+
+/* Default card colours */
+.tt-session-card.lecture  { background: var(--lecture-bg);  border-left-color: var(--lecture-border)  !important; }
+.tt-session-card.tutorial { background: var(--tutorial-bg); border-left-color: var(--tutorial-border) !important; }
+.tt-session-card.practical{ background: var(--lab-bg);      border-left-color: var(--lab-border)      !important; }
+
+/* Header row inside session card */
+.ttsc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+.ttsc-time {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    background: hsla(222,40%,12%,0.6);
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+.ttsc-type {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.ttsc-type.lecture  { background: var(--accent-blue-dim);   color: var(--accent-blue);   }
+.ttsc-type.tutorial { background: var(--accent-amber-dim);  color: var(--accent-amber);  }
+.ttsc-type.practical{ background: var(--accent-green-dim);  color: var(--accent-green);  }
+
+.ttsc-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+.ttsc-name {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ttsc-batch {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 100px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    align-self: flex-start;
+}
+.ttsc-batch-plain {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+.ttsc-faculty, .ttsc-room {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Empty cell ── */
+.tt-td-empty {
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(222,30%,20%,0.2);
+}
+.tt-empty-cell {
+    height: 80px;
+    border: 1px dashed hsla(222,30%,25%,0.35);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.35;
+}
+
+/* ── Old v2 classes compatibility (buildWeeklyGrid uses these) ── */
+.timetable-wrapper.tt-vibrant { background: var(--glass-bg); }
+.timetable-grid.tg-premium { min-width: 900px; }
+.tg-row:hover td { background: hsla(222,30%,18%,0.4); }
+
+.day-header-v2 {
+    padding: 12px 10px;
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border-subtle);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    position: sticky;
+    left: 0;
+    z-index: 4;
+}
+
+.period-header-v2 {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 2px solid var(--border-subtle);
+    border-right: 1px solid hsla(222,30%,22%,0.4);
+    min-width: 130px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.th-p1 { background: hsla(217,80%,50%,0.22); }
+.th-p2 { background: hsla(265,75%,57%,0.22); }
+.th-p3 { background: hsla(152,65%,43%,0.22); }
+.th-p4 { background: hsla(38,90%,50%,0.22);  }
+.th-p5 { background: hsla(187,80%,43%,0.22); }
+.th-p6 { background: hsla(340,80%,50%,0.22); }
+
+.period-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: hsla(222,40%,8%,0.5);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 3px;
+}
+.period-time-v2 {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.lunch-header-v2 {
+    padding: 8px 6px;
+    text-align: center;
+    background: linear-gradient(135deg, hsla(38,80%,50%,0.25), hsla(38,80%,50%,0.12));
+    border-bottom: 2px solid hsla(38,80%,55%,0.4);
+    border-right: 1px solid hsla(38,60%,40%,0.3);
+    min-width: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.lunch-th-inner  { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 1rem; }
+.lunch-th-time   { font-size: 0.6rem; color: hsl(38,80%,62%); font-family: 'JetBrains Mono', monospace; }
+.lunch-th-label  { font-size: 0.6rem; font-weight: 700; color: hsl(38,90%,65%); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.day-cell-v2 {
+    padding: 10px 8px;
+    text-align: center;
+    vertical-align: middle;
+    border-right: 2px solid hsla(222,30%,10%,0.5);
+    border-bottom: 1px solid hsla(222,30%,15%,0.4);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 90px;
+}
+.day-name-v2 {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.half-day-badge-v2 {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 5px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 100px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.lunch-cell-v2 {
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    background: linear-gradient(135deg, hsla(38,80%,50%,0.12), hsla(38,80%,50%,0.06));
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(38,60%,40%,0.25);
+    min-width: 80px;
+}
+.lunch-inner-v2  { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.lunch-emoji     { font-size: 1.4rem; }
+.lunch-text      { font-size: 0.65rem; font-weight: 700; color: hsl(38,90%,65%); text-transform: uppercase; letter-spacing: 0.05em; }
+.lunch-time      { font-size: 0.58rem; color: hsl(38,70%,55%); font-family: 'JetBrains Mono', monospace; }
+.lunch-faded     { opacity: 0.25; }
+
+.blocked-cell-v2 {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    background: hsla(222,30%,10%,0.5);
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+}
+.blocked-inner-v2 {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.session-td-v2 {
+    padding: 6px;
+    vertical-align: top;
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(222,30%,20%,0.2);
+    min-width: 130px;
+    min-height: 90px;
+}
+
+.session-card {
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-left: 3px solid transparent;
+    min-height: 80px;
+}
+.session-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    z-index: 5;
+    position: relative;
+}
+.session-card.lecture  { background: var(--lecture-bg);  border-left-color: var(--lecture-border);  }
+.session-card.tutorial { background: var(--tutorial-bg); border-left-color: var(--tutorial-border); }
+.session-card.practical{ background: var(--lab-bg);      border-left-color: var(--lab-border);      }
+
+.sc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+.sc-time-chip {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    background: hsla(222,40%,12%,0.7);
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+.sc-type-chip {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.sc-type-chip.lecture  { background: var(--accent-blue-dim);  color: var(--accent-blue);  }
+.sc-type-chip.tutorial { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.sc-type-chip.practical{ background: var(--accent-green-dim); color: var(--accent-green); }
+
+.sc-course-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+.session-card.lecture  .sc-course-code { color: var(--lecture-text);  }
+.session-card.tutorial .sc-course-code { color: var(--tutorial-text); }
+.session-card.practical .sc-course-code { color: var(--lab-text); }
+
+.sc-course-name {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sc-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+}
+.sc-detail-item {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.sc-batch-tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 100px;
+    background: hsla(222,40%,25%,0.6);
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 2px;
+    align-self: flex-start;
+}
+
+.empty-td-v2 {
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid hsla(222,30%,20%,0.3);
+    border-right: 1px solid hsla(222,30%,20%,0.2);
+}
+.empty-cell-v2 {
+    height: 80px;
+    border: 1px dashed hsla(222,30%,25%,0.3);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.3;
+}
+
