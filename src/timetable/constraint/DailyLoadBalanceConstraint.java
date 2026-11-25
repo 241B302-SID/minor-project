@@ -41,9 +41,11 @@ public class DailyLoadBalanceConstraint implements Constraint {
 
             int min = dayLoads[0];
             int max = dayLoads[0];
-            for (int load : dayLoads) {
-                if (load < min) min = load;
-                if (load > max) max = load;
+            for (int d = 0; d < daysCount; d++) {
+                int load = dayLoads[d];
+                int adjustedLoad = (d == 5) ? load * 7 / 4 : load;
+                if (adjustedLoad < min) min = adjustedLoad;
+                if (adjustedLoad > max) max = adjustedLoad;
             }
             penalty += (max - min);
         }

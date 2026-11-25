@@ -122,16 +122,17 @@ public class SampleDataLoader {
         sessions.add(new Session("S" + (sId++), cs212, SessionType.PRACTICAL, singleSbGroups.get("B3"), f5, 2, 1));
 
 
-        // Weekly schedule dimensions: 5 days, 6 periods/day
-        int daysCount = 5;
-        int periodsPerDay = 6;
-        String[] dayNames = {"Mon", "TUE", "Wed", "Thu", "Fri"};
-        String[] periodTimes = {"9:00-9:55", "10:00-10:55", "11:00-11:55", "12:00-12:55", "2:00-2:55", "3:00-3:55"};
+        // Weekly schedule dimensions: 6 days, 7 periods/day (Saturday: 4 periods)
+        int daysCount = 6;
+        int periodsPerDay = 7;
+        int[] periodsPerDayArray = {7, 7, 7, 7, 7, 4};
+        String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        String[] periodTimes = {"9:00-9:55", "10:00-10:55", "11:00-11:55", "12:00-12:55", "2:00-2:55", "3:00-3:55", "4:00-4:55"};
 
 
         return new TimetableContext(
                 courses, facultyList, rooms, subBatches, batchGroups, sessions,
-                daysCount, periodsPerDay, dayNames, periodTimes
+                daysCount, periodsPerDay, periodsPerDayArray, dayNames, periodTimes
         );
     }
 }

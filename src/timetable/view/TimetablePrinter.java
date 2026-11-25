@@ -30,7 +30,7 @@ public class TimetablePrinter {
             int dayPeriods = context.getPeriodsForDay(d);
             for (int p = 0; p < periodsPerDay; p++) {
                 if (p >= dayPeriods) {
-                    System.out.printf(" %-22s |", "[No Class]");
+                    System.out.printf(" %-22s |", "[Half Day / Off]");
                     continue;
                 }
                 Gene matchingGene = null;
@@ -87,7 +87,7 @@ public class TimetablePrinter {
             int dayPeriods = context.getPeriodsForDay(d);
             for (int p = 0; p < periodsPerDay; p++) {
                 if (p >= dayPeriods) {
-                    System.out.printf(" %-22s |", "[No Class]");
+                    System.out.printf(" %-22s |", "[Half Day / Off]");
                     continue;
                 }
                 Gene match = null;

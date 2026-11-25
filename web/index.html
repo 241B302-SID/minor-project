@@ -37,6 +37,9 @@
         <button class="tab-btn" data-tab="dashboard" id="tabDashboard" style="display:none;">
             <span class="tab-icon">📊</span> Dashboard
         </button>
+        <button class="tab-btn" data-tab="combined" id="tabCombined" style="display:none;">
+            <span class="tab-icon">🗓️</span> Combined View
+        </button>
         <button class="tab-btn" data-tab="subbatch" id="tabSubBatch" style="display:none;">
             <span class="tab-icon">🧑‍🎓</span> Sub-Batch View
         </button>
@@ -283,7 +286,8 @@
                 <div class="form-actions-right">
                     <button class="btn btn-secondary" onclick="reloadServerOutput()" title="Load latest timetable from server">⚡ Reload Latest</button>
                     <button class="btn btn-secondary" id="btnLoadOutput" onclick="loadOutputJson()" title="Upload a JSON file from your computer">📂 Upload JSON</button>
-                    <button class="btn btn-success" onclick="exportInputJson()">💾 Export Input JSON</button>
+                    <button class="btn btn-secondary" onclick="exportInputJson()">💾 Export Input JSON</button>
+                    <button class="btn btn-success" id="btnGenerate" onclick="generateTimetable()" style="background: linear-gradient(135deg, hsl(217,91%,55%), hsl(258,90%,60%)); font-weight: 700; letter-spacing: 0.02em;">⚡ Generate Timetable</button>
                 </div>
             </div>
 
@@ -297,6 +301,13 @@
     <div class="tab-content" id="tab-dashboard">
         <div class="stats-grid" id="statsGrid">
             <!-- Populated by JS -->
+        </div>
+
+        <!-- Download action bar -->
+        <div id="dashDownloadBar" style="margin-top: 28px; display: flex; gap: 12px; align-items: center; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); flex: 1;">📥 Save your timetable</span>
+            <button class="btn btn-primary" id="btnDownloadPdf" onclick="downloadPdf()" style="background: linear-gradient(135deg, hsl(0,79%,55%), hsl(340,90%,50%)); border: none;">📄 Download PDF</button>
+            <button class="btn btn-secondary" id="btnDownloadJson" onclick="downloadOutputJson()">💾 Download JSON</button>
         </div>
 
         <div style="margin-top: 20px;">
@@ -320,12 +331,39 @@
 
 
     <!-- ═══════════════════════════════════════════
-         TAB 3: SUB-BATCH VIEW
+         TAB 3: COMBINED ALL-BATCHES VIEW
+         ═══════════════════════════════════════════ -->
+    <div class="tab-content" id="tab-combined">
+        <div class="combined-header-bar">
+            <div class="combined-header-info">
+                <h2 class="combined-title">🗓️ Combined Timetable — All Batches</h2>
+                <p class="combined-subtitle">All batch groups displayed together. Each colour represents a different batch. Hover cells for details.</p>
+            </div>
+            <div class="combined-actions" style="display:flex; gap:10px; flex-shrink:0;">
+                <button class="btn btn-primary" onclick="downloadPdf()" style="background: linear-gradient(135deg, hsl(0,79%,55%), hsl(340,90%,50%)); border: none;">📄 Download PDF</button>
+                <button class="btn btn-secondary" onclick="downloadOutputJson()">💾 Download JSON</button>
+            </div>
+        </div>
+        <div id="combinedLegend" class="combined-legend"></div>
+        <div id="combinedGridContainer">
+            <div class="empty-state">
+                <div class="empty-icon">🗓️</div>
+                <h3>No timetable generated yet</h3>
+                <p>Generate a timetable to see the combined view of all batches.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════
+         TAB 4: SUB-BATCH VIEW
          ═══════════════════════════════════════════ -->
     <div class="tab-content" id="tab-subbatch">
         <div class="view-controls">
             <label for="subBatchSelect">Select Sub-Batch:</label>
             <select class="styled-select" id="subBatchSelect" onchange="renderSubBatchGrid()"></select>
+            <button class="btn btn-primary" onclick="downloadPdf()" style="margin-left: auto; background: linear-gradient(135deg, hsl(0,79%,55%), hsl(340,90%,50%)); border: none;">📄 Download PDF</button>
+            <button class="btn btn-secondary" onclick="downloadOutputJson()">💾 Download JSON</button>
         </div>
         <div id="subBatchGridContainer">
             <div class="empty-state">
@@ -344,6 +382,7 @@
         <div class="view-controls">
             <label for="facultySelect">Select Faculty:</label>
             <select class="styled-select" id="facultySelect" onchange="renderFacultyGrid()"></select>
+            <button class="btn btn-primary" onclick="downloadPdf()" style="margin-left: auto; background: linear-gradient(135deg, hsl(0,79%,55%), hsl(340,90%,50%)); border: none;">📄 Download PDF</button>
         </div>
         <div id="facultyGridContainer">
             <div class="empty-state">
@@ -380,6 +419,8 @@
         <div class="view-controls">
             <label for="masterFilter">Filter:</label>
             <input type="text" class="styled-select" id="masterFilter" placeholder="Search by course, faculty, room..." oninput="renderMasterTable()" style="min-width: 300px;">
+            <button class="btn btn-primary" onclick="downloadPdf()" style="margin-left: auto; background: linear-gradient(135deg, hsl(0,79%,55%), hsl(340,90%,50%)); border: none;">📄 Download PDF</button>
+            <button class="btn btn-secondary" onclick="downloadOutputJson()">💾 Download JSON</button>
         </div>
         <div id="masterTableContainer">
             <!-- Populated by JS -->
